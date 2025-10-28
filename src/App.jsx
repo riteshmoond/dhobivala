@@ -6,6 +6,8 @@ import Header from './component/Header'
 import Footer from './component/Footer'
 import Addtocard from './component/Addtocard'
 import { menServices } from './pages/Menservices'
+import Female from './pages/Female'
+import Kids from './pages/Kids'
 
 const STORAGE_KEY = "dobhivala_cart_v1";
 
@@ -53,7 +55,7 @@ const App = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header totalItems={totalItems} subtotal={subtotal} />
-      
+
       <main className="flex-1 pt-16">
         <Routes>
           <Route path='/cart' element={
@@ -72,6 +74,30 @@ const App = () => {
             element={
               <Male
                 menServices={menServices}
+                cart={cart}
+                addToCart={addToCart}
+                removeFromCart={removeFromCart}
+                totalItems={totalItems}
+                subtotal={subtotal}
+              />
+            }
+          />
+          <Route
+            path='/female'
+            element={
+              <Female
+                cart={cart}
+                addToCart={addToCart}
+                removeFromCart={removeFromCart}
+                totalItems={totalItems}
+                subtotal={subtotal}
+              />
+            }
+          />
+          <Route
+            path='/kids'
+            element={
+              <Kids
                 cart={cart}
                 addToCart={addToCart}
                 removeFromCart={removeFromCart}
