@@ -3,25 +3,30 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus, Minus, ShoppingCart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { menServices } from "../pages/Menservices";
 
-const Addtocard = ({ cart, menServices, addToCart, removeFromCart, totalItems, subtotal }) => {
+const Addtocard = ({ cart, addToCart, removeFromCart, totalItems, subtotal }) => {
   const navigate = useNavigate();
-  
   const selectedItems = menServices.filter(item => cart[item.id] > 0);
+console.log(menServices);
+
 
   return (
-    <div className="w-full min-h-screen bg-gradient-to-br from-sky-50 via-white to-gray-100">
-      <main className="max-w-4xl mx-auto px-4 py-8">
-        <div className="flex items-center gap-2 mb-6">
-          <ShoppingCart className="w-6 h-6 text-sky-600" />
-          <h2 className="text-2xl font-bold text-sky-800">Your Cart</h2>
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-gray-100 pt-20">
+      <main className="max-w-4xl mx-auto px-4 py-8 animate-fadeIn">
+        
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-8">
+          <ShoppingCart className="w-7 h-7 text-orange-600" />
+          <h2 className="text-3xl font-bold text-orange-700 drop-shadow-sm">Your Cart</h2>
         </div>
 
+        {/* Empty Cart */}
         {selectedItems.length === 0 ? (
-          <div className="text-center py-8">
-            <p className="text-gray-500">Your cart is empty</p>
-            <Button 
-              className="mt-4 bg-sky-600 text-white"
+          <div className="text-center py-12 bg-white shadow-md rounded-2xl">
+            <p className="text-gray-500 text-lg">Your cart is empty</p>
+            <Button
+              className="mt-5 bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-full"
               onClick={() => navigate("/male")}
             >
               Continue Shopping
@@ -29,45 +34,63 @@ const Addtocard = ({ cart, menServices, addToCart, removeFromCart, totalItems, s
           </div>
         ) : (
           <>
-            {selectedItems.map(item => (
-              <Card key={item.id} className="mb-4 p-4">
-                <CardContent className="flex justify-between items-center">
-                  <div>
-                    <h3 className="font-medium">{item.name}</h3>
-                    <p className="text-sm text-gray-600">₹{item.price} • {item.unit}</p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => removeFromCart(item.id)}
-                    >
-                      <Minus className="w-3 h-3" />
-                    </Button>
-                    <span className="font-medium">{cart[item.id]}</span>
-                    <Button
-                      size="sm"
-                      className="bg-sky-600 text-white"
-                      onClick={() => addToCart(item.id)}
-                    >
-                      <Plus className="w-3 h-3" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+            {/* Cart Products */}
+            <div className="space-y-4">
+              {selectedItems.map(item => (
+                <Card
+                  key={item.id}
+                  className="p-4 rounded-2xl shadow-sm border bg-white/80 backdrop-blur"
+                >
+                  <CardContent className="flex justify-between items-center gap-4">
+                    
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-800">{item.name}</h3>
+                      <p className="text-sm text-gray-600">₹{item.price} • {item.unit}</p>
+                    </div>
 
-            <div className="mt-6 border-t pt-4">
-              <div className="flex justify-between mb-4">
-                <span className="font-medium">Total Items:</span>
-                <span>{totalItems}</span>
+                    <div className="flex items-center gap-4 bg-gray-100 rounded-full px-4 py-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 w-8 rounded-full bg-white hover:bg-gray-200"
+                        onClick={() => removeFromCart(item.id)}
+                      >
+                        <Minus className="w-4 h-4 text-gray-700" />
+                      </Button>
+
+                      <span className="font-semibold w-6 text-center text-gray-800">
+                        {cart[item.id]}
+                      </span>
+
+                      <Button
+                        size="sm"
+                        className="h-8 w-8 rounded-full bg-orange-600 text-white hover:bg-orange-700"
+                        onClick={() => addToCart(item.id)}
+                      >
+                        <Plus className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {/* Order Summary */}
+            <div className="mt-10 bg-white shadow-lg rounded-2xl p-6 border">
+              <h3 className="text-xl font-semibold text-orange-700 mb-4">Order Summary</h3>
+
+              <div className="flex justify-between text-gray-700 mb-3">
+                <span>Total Items</span>
+                <span className="font-semibold">{totalItems}</span>
               </div>
-              <div className="flex justify-between mb-6">
-                <span className="font-medium">Total Amount:</span>
-                <span>₹{subtotal}</span>
+
+              <div className="flex justify-between text-gray-700 text-lg font-semibold mb-6">
+                <span>Total Amount</span>
+                <span className="text-orange-700">₹{subtotal}</span>
               </div>
-              <Button 
-                className="w-full bg-sky-600 text-white"
+
+              <Button
+                className="w-full bg-gradient-to-r from-orange-600 to-orange-700 text-white py-3 rounded-xl text-lg font-medium hover:opacity-90 transition"
                 onClick={() => navigate("/checkout")}
               >
                 Proceed to Checkout

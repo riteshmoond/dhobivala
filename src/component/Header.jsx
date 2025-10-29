@@ -129,7 +129,7 @@ const Header = ({ totalItems, subtotal }) => {
               </div>
             </SheetContent>
           </Sheet>
-        </div>
+        </div> 
       </div>
     </nav>
   );
