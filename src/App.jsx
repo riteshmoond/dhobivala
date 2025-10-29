@@ -6,8 +6,6 @@ import Header from './component/Header'
 import Footer from './component/Footer'
 import Addtocard from './component/Addtocard'
 import { menServices } from './pages/Menservices'
-import { womenServices } from './pages/Womenservices';
-import { kidsServices } from './pages/Kidsservices';
 import Female from './pages/Female'
 import Kids from './pages/Kids'
 
@@ -19,14 +17,10 @@ const App = () => {
 
   const totalItems = Object.values(cart).reduce((s, q) => s + q, 0);
   const subtotal = Object.entries(cart).reduce((s, [id, q]) => {
-  const item =
-    menServices.find((m) => String(m.id) === String(id)) ||
-    womenServices.find((f) => String(f.id) === String(id)) ||
-    kidsServices.find((k) => String(k.id) === String(id));
-
-  return s + (item ? item.price * q : 0);
-}, 0);
-
+    const list = Array.isArray(menServices) ? menServices : [];
+    const item = list.find((m) => String(m.id) === String(id));
+    return s + (item ? item.price * q : 0);
+  }, 0);
 
   useEffect(() => {
     try {
@@ -87,41 +81,42 @@ const App = () => {
           } />
           <Route path='/' element={<Home />} />
           <Route
-  path='/male'
-  element={
-    <Male
-      services={menServices}
-      cart={cart}
-      addToCart={addToCart}
-      removeFromCart={removeFromCart}
-    />
-  }
-/>
-
-<Route
-  path='/female'
-  element={
-    <Female
-      services={womenServices}
-      cart={cart}
-      addToCart={addToCart}
-      removeFromCart={removeFromCart}
-    />
-  }
-/>
-
-<Route
-  path='/kids'
-  element={
-    <Kids
-      services={kidsServices}
-      cart={cart}
-      addToCart={addToCart}
-      removeFromCart={removeFromCart}
-    />
-  }
-/>
-
+            path='/male'
+            element={
+              <Male
+                menServices={menServices}
+                cart={cart}
+                addToCart={addToCart}
+                removeFromCart={removeFromCart}
+                totalItems={totalItems}
+                subtotal={subtotal}
+              />
+            }
+          />
+          <Route
+            path='/female'
+            element={
+              <Female
+                cart={cart}
+                addToCart={addToCart}
+                removeFromCart={removeFromCart}
+                totalItems={totalItems}
+                subtotal={subtotal}
+              />
+            }
+          />
+          <Route
+            path='/kids'
+            element={
+              <Kids
+                cart={cart}
+                addToCart={addToCart}
+                removeFromCart={removeFromCart}
+                totalItems={totalItems}
+                subtotal={subtotal}
+              />
+            }
+          />
         </Routes>
       </main>
       <Footer />
